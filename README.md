@@ -13,7 +13,7 @@ This project is an **interactive slot machine game** that can be played both on 
 
 - **HTML**: Structure for the web-based slot machine
 - **CSS**: Styling, animations, and layout
-- **JavaScript (Vanilla JS & Node.js)**: Game logic for both web and terminal versions
+- **JavaScript (Node.js)**: Game logic for both web and terminal versions
 
 ## 🛠️ Features
 
