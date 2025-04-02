@@ -111,12 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.width = Math.random() * 10 + 5 + 'px';
         confetti.style.height = confetti.style.width;
-        confetti.style.animationDelay = Math.random() * 2 + 's'; // Reduced delay
-        confetti.style.animationDuration = Math.random() * 2 + 2 + 's'; // Reduced duration
+        confetti.style.animationDelay = Math.random() * 2 + 's'; 
+        confetti.style.animationDuration = Math.random() * 2 + 2 + 's'; 
         
         container.appendChild(confetti);
         
-        // Remove confetti after animation completes - reduced to 5 seconds
+        
         setTimeout(() => {
           confetti.remove();
         }, 5000);
