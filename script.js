@@ -67,7 +67,6 @@ const getBetAmount = (balance, lines) =>{
 const spin = ()=>{
     const symbols = [];
     for(const [symbol, count] of Object.entries(SYMBOLS_COUNT)){
-        console.log(`${symbol}: ${count}`);
         for(let i = 0; i < count; i++){
             symbols.push(symbol);
         }
@@ -85,10 +84,71 @@ const spin = ()=>{
     }
     return reels;
 }
+const transpose = (reels)=>{
+    const rows = [];
 
-const reels = spin();
-let balance = deposit();
-console.log(`Deposit amount: ${balance}`);
-const linesBet = getNumberOfLines();
-console.log(`Number of lines: ${linesBet}`);
-const betAmount = getBetAmount(balance, linesBet);
+    for(let i = 0; i < ROWS; i++){
+        rows.push([]);
+        for(let j = 0; j < COLUMNS; j++){
+            rows[i].push(reels[j][i]);
+        }
+    }
+    return rows;
+}
+
+const printRows = (rows)=>{
+    for(const row of rows){
+        let rowString = "";
+        for(const [i, symbol] of row.entries()){
+            rowString += symbol + " ";
+            if(i !== row.length - 1){
+                rowString += " | ";
+            }
+        }
+        console.log(rowString);
+    }
+}
+
+const getWinnings =(rows, lines, bet, SYMBOLS_VALUE)=>{
+    let winnings = 0;
+    for(let row = 0; row < lines; row++){
+        const symbols = rows[row];
+        let allSame = true;
+        for(const symbol of symbols){
+            if(symbol !== symbols[0]){
+                allSame = false;
+                break;
+            }
+        }
+        if(allSame){
+                winnings += bet * SYMBOLS_VALUE[symbols[0]];
+        }
+    }
+    return winnings;
+}
+
+const game = ()=>{
+    let balance = deposit();
+    while(true){
+        console.log(`Current balance is $${balance}`);
+        const linesBet = getNumberOfLines();
+        const betAmount = getBetAmount(balance, linesBet);
+        balance -= betAmount * linesBet;
+        const reels = spin();
+        const rows = transpose(reels);
+        printRows(rows);
+        const winnings = getWinnings(rows, linesBet, betAmount, SYMBOLS_VALUE);
+        balance += winnings;
+        console.log(`You won $${winnings}`);
+        if(balance <= 0){
+            console.log("You ran out of money. Game over.");
+            break;
+        }
+        const playAgain = prompt("Do you want to play again? (yes/no): ");
+        if(playAgain.toLowerCase() !== "yes"){
+            break;
+        }
+    }
+}
+
+game();
